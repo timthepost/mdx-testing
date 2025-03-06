@@ -1,10 +1,16 @@
 ---
 layout: layouts/base.vto
-title: Home
+title: MD Page
 ---
-<header>
-  <h1>{{ title }}</h1>
-</header>
+
+# MD Page Code:
+
+```js
+function foo() {
+  const bar = "foobar";
+  return bar;
+}
+```
 
 <p>
   <a href="/">Home</a> |

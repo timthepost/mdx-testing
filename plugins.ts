@@ -1,33 +1,25 @@
-import lightningcss from "lume/plugins/lightningcss.ts";
-import basePath from "lume/plugins/base_path.ts";
-import metas from "lume/plugins/metas.ts";
-import { Options as SitemapOptions, sitemap } from "lume/plugins/sitemap.ts";
-import { favicon, Options as FaviconOptions } from "lume/plugins/favicon.ts";
-import { merge } from "lume/core/utils/object.ts";
 
+import basePath from "lume/plugins/base_path.ts";
+import mdx from "lume/plugins/mdx.ts";
+import prism from "lume/plugins/prism.ts";
 import "lume/types.ts";
 
-export interface Options {
-  sitemap?: Partial<SitemapOptions>;
-  favicon?: Partial<FaviconOptions>;
-}
-
-export const defaults: Options = {
-  favicon: {
-    input: "uploads/favicon.svg",
-  },
-};
-
 /** Configure the site */
-export default function (userOptions?: Options) {
-  const options = merge(defaults, userOptions);
-
+export default function () {
   return (site: Lume.Site) => {
-    site.use(lightningcss())
+    site
       .use(basePath())
-      .use(metas())
-      .use(sitemap(options.sitemap))
-      .use(favicon(options.favicon))
-      .copy("uploads");
+      .use(mdx({ extensions: [".mdx"] }))
+      .use(prism({
+        theme: [
+          {
+            name: "tomorrow",
+            cssFile: "/prism.css",
+          }
+        ]
+      }))
+      .add("_includes/css", "css")
+      .add([".css"])
+      .add("uploads");
   };
 }
